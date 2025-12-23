@@ -2,13 +2,18 @@
 import { useSession } from '@/context/SessionContext';
 import React, { useEffect, useState } from 'react';
 import { Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import QRCode from 'react-native-qrcode-svg'; // this will eventually be replaced with NFC
 import { ScreenTime } from '../../services/ScreenTimeServices';
+
 
 // ------------------------------------------------------
 // THE "JAIL" COMPONENT (Locked View)
 // This remains the same after ADP
 // ------------------------------------------------------
 function LockedView({ onUnlock }: { onUnlock: () => void }) {
+  // This should come from the backend: AJ
+  const sessionToken = "feather-unlock-token-123";
+
   // TODO: Add a real countdown timer later
   return (
     <View style={styles.lockedContainer}>
@@ -18,14 +23,24 @@ function LockedView({ onUnlock }: { onUnlock: () => void }) {
         You can only unlock by scanning a friend's QR code.
       </Text>
 
+      <View style={styles.QRBox}>
+        <QRCode 
+          value={sessionToken}
+          size={200}
+          backgroundColor="white"
+          color="black"
+        />
+      </View>
+
+
       {/* Placeholder */}
       <View style={styles.timerBox}>
         <Text style={styles.timerText}>19:59</Text>
         <Text style={styles.timerLabel}>minutes remaining</Text>
       </View>
 
-      <TouchableOpacity style={styles.unlockButton} onPress={onUnlock}>
-        <Text style={styles.unlockButtonText}>Tap with a friend's phone</Text>
+      <TouchableOpacity style={styles.emergencyUnlockButton} onPress={onUnlock}>
+        <Text style={styles.emergencyUnlockButtonText}>Emergency Unlock</Text>
       </TouchableOpacity>
     </View>
   );
@@ -206,7 +221,7 @@ const styles = StyleSheet.create({
   },
   timerText: { fontSize: 48, fontWeight: 'bold', color: '#fff', fontVariant: ['tabular-nums'] },
   timerLabel: { fontSize: 14, color: '#888', textTransform: 'uppercase', letterSpacing: 2 },
-  unlockButton: {
+  emergencyUnlockButton: {
     backgroundColor: '#fff',
     paddingVertical: 16,
     paddingHorizontal: 32,
@@ -214,5 +229,13 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
   },
-  unlockButtonText: { fontSize: 18, fontWeight: 'bold', color: '#000' },
+  emergencyUnlockButtonText: { fontSize: 18, fontWeight: 'bold', color: '#000' },
+  QRBox: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 20,
+    marginBottom: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });

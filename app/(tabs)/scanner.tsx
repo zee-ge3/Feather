@@ -1,12 +1,13 @@
 import { useIsFocused } from '@react-navigation/native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Alert, Button, StyleSheet, Text, Vibration, View } from 'react-native';
 
 export default function ScannerTab() {
   const isFocused = useIsFocused();
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
+  const cameraLock = useRef(false);
 
   // blank if no permission
   if (!permission) {
@@ -25,7 +26,9 @@ export default function ScannerTab() {
 
   // scan state
   const handleBarCodeScanned = ({ type, data }: { type: string; data: string }) => {
-    if (scanned) return;
+    if (cameraLock.current) return;
+    cameraLock.current = true;
+    if (scanned || !isFocused) return;
     else {
       setScanned(true);
       Vibration.vibrate();
@@ -39,14 +42,21 @@ export default function ScannerTab() {
             text: "Unlock Friend", 
             onPress: () => {
               // Logic to unlock the friend goes here
+
               setScanned(false);
+              setTimeout(() => {
+                cameraLock.current = false;
+              }, 1000); // prevent immediate re-scan
             }
           }
         ]
       );
     }
   };
-
+  
+  if (!isFocused) {
+    return <View />;
+  }
   return (
     <View style={styles.container}>
       <CameraView 

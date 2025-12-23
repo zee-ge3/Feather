@@ -7,7 +7,7 @@ export default function FeatureScreen() {
 
   const handleNext = () => {
     // This is how you navigate to the main tabs after welcome
-    router.replace('/(tabs)/explore');
+    router.replace('/(tabs)');
   };
 
   return (

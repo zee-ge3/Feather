@@ -30,9 +30,18 @@ const mockRequestAuthorization = async () => {
 
 const mockGetBlockedApps = () => {
   return [
-    { id: '1', name: 'Instagram', icon: '📸' },
-    { id: '2', name: 'TikTok', icon: '🎵' },
-    { id: '3', name: 'Snapchat', icon: '👻' },
+    { id: '1', name: 'Instagram', icon: '📸', category: 'Social' },
+    { id: '2', name: 'TikTok', icon: '🎵', category: 'Social' },
+    { id: '3', name: 'Snapchat', icon: '👻', category: 'Social' },
+    { id: '4', name: 'Twitter (X)', icon: '🐦', category: 'Social' },
+    { id: '5', name: 'YouTube', icon: '▶️', category: 'Entertainment' },
+    { id: '6', name: 'Netflix', icon: '🍿', category: 'Entertainment' },
+    { id: '7', name: 'Reddit', icon: '🤖', category: 'Reading' },
+    { id: '8', name: 'Tinder', icon: '🔥', category: 'Social' },
+    { id: '9', name: 'Roblox', icon: '👾', category: 'Games' },
+    { id: '10', name: 'Hinge', icon: '🖤', category: 'Social' },
+    { id: '11', name: 'WhatsApp', icon: '📞', category: 'Social' },
+    { id: '12', name: 'ChatGPT', icon: '🧠', category: 'Productivity' },
   ];
 };
 
